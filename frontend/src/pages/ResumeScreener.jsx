@@ -12,6 +12,9 @@ const ALLOWED_EXTENSIONS = [".pdf", ".doc", ".docx"];
 export default function ResumeScreener() {
   const [fileName, setFileName] = useState("");
   const [error, setError]       = useState("");
+  const [score, setScore] = useState(0);
+  const [skills, setSkills] = useState([]);
+  const [status, setStatus] = useState("");
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
@@ -20,7 +23,7 @@ export default function ResumeScreener() {
     const ext       = "." + file.name.split(".").pop().toLowerCase();
     const validType = ALLOWED_TYPES.includes(file.type);
     const validExt  = ALLOWED_EXTENSIONS.includes(ext);
-
+    
     if (!validType || !validExt) {
       setError(`"${file.name}" is not allowed. Please upload a PDF, DOC, or DOCX file only.`);
       setFileName("");
@@ -30,6 +33,19 @@ export default function ResumeScreener() {
 
     setError("");
     setFileName(file.name);
+    const randomScore = Math.floor(Math.random() * 40) + 60;
+    setScore(randomScore);
+
+    if (randomScore >= 85) {
+      setSkills(["React", "Node.js", "MongoDB"]);
+      setStatus("Recommended");
+    } else if (randomScore >= 70) {
+      setSkills(["HTML", "CSS", "JavaScript"]);
+      setStatus("Consider");
+    } else {
+      setSkills(["Basic Skills"]);
+      setStatus("Rejected");
+    }
   };
 
   return (
@@ -82,15 +98,15 @@ export default function ResumeScreener() {
               <div className="result-row">
                 <span className="result-label">Match score</span>
                 <div className="score-bar">
-                  <div className="score-fill" style={{ width: "87%" }} />
+                  <div className="score-fill" style={{ width: `${score}%` }} />
                 </div>
-                <span className="score-text">87%</span>
+                <span className="score-text">{score}%</span>
               </div>
 
               <div className="result-row">
                 <span className="result-label">Skills found</span>
                 <div className="skill-tags">
-                  {["React", "Node.js", "MongoDB"].map((sk) => (
+                  {skills.map((sk) => (
                     <span key={sk} className="skill-tag">{sk}</span>
                   ))}
                 </div>
@@ -98,7 +114,7 @@ export default function ResumeScreener() {
 
               <div className="result-row">
                 <span className="result-label">Recommendation</span>
-                <StatusBadge status="Recommended" />
+                <StatusBadge status={status} />
               </div>
             </div>
           </div>

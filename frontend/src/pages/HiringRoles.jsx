@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Hiringroles.css";
-
-const API_BASE = "http://localhost:5000/api/jobs";
+const API_BASE = "https://your-backend-name.onrender.com/api/jobs";
 
 const EMPTY_FORM = {
   title:          "",

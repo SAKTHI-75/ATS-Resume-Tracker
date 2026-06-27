@@ -22,21 +22,28 @@ export default function HiringRoles() {
 
   // ── Fetch all jobs ──────────────────────────────────
   const fetchRoles = async () => {
+  console.log("Fetching roles from:", API_BASE);
+
   setLoading(true);
   setError("");
 
   try {
     const res = await fetch(API_BASE);
+
+    console.log("Status:", res.status);
+
     const data = await res.json();
 
+    console.log("Data:", data);
+
     setRoles(data.data || []);
-    setError("");
   } catch (err) {
-    console.error(err);
+    console.error("Fetch Error:", err);
     setError("Unable to load hiring roles.");
   } finally {
     setLoading(false);
-  }};
+  }
+};
   // ── Open modal ──────────────────────────────────────
   function openAdd() {
     setEditRole(null);

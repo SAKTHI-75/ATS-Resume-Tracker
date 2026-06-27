@@ -25,12 +25,15 @@ export default function HiringRoles() {
     setLoading(true);
     setError("");
     try {
-      const res  = await fetch(API_BASE);
+      const res = await fetch(API_BASE);
       const data = await res.json();
-      if (data.success) setRoles(data.data);
-      else setError(data.message || "Failed to load roles");
-    } catch {
-      setError("Could not connect to server. Make sure the backend is running.");
+
+      setRoles(data.data || []);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load hiring roles.");
+    }
     } finally {
       setLoading(false);
     }

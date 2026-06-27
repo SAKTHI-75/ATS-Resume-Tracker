@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Hiringroles.css";
-const API_BASE = "https://your-backend-name.onrender.com/api/jobs";
+const API_BASE = "https://ats-resume-tracker-backend.onrender.com/api/jobs";
 
 const EMPTY_FORM = {
   title:          "",
@@ -22,33 +22,28 @@ export default function HiringRoles() {
 
   // ── Fetch all jobs ──────────────────────────────────
   const fetchRoles = async () => {
-    setLoading(true);
-    setError("");
+  setLoading(true);
+  setError("");
+
   try {
-    const res = await fetch(API_BASE);      
+    const res = await fetch(API_BASE);
     const data = await res.json();
+
     setRoles(data.data || []);
     setError("");
   } catch (err) {
     console.error(err);
     setError("Unable to load hiring roles.");
   } finally {
-  setLoading(false);
-
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { fetchRoles(); }, []);
-
+    setLoading(false);
+  }};
   // ── Open modal ──────────────────────────────────────
-  const openAdd = () => {
+  function openAdd() {
     setEditRole(null);
     setForm(EMPTY_FORM);
     setFormError("");
     setShowModal(true);
-  };
+  }
 
   const openEdit = (role) => {
     setEditRole(role);
